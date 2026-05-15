@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trilogia do Método Integrativo — Coragem Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bordeaux: #6B1F2A;
+    --bordeaux-light: #8B2F3E;
+    --bordeaux-dark: #4A1219;
+    --cream: #F5EFE0;
+    --cream-dark: #EDE4CC;
+    --caramel: #9B7A3A;
+    --caramel-light: #C4A468;
+    --caramel-dark: #7A5C20;
+    --text-dark: #2C1810;
+    --text-mid: #5C3D28;
+    --text-light: #8B6940;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'EB Garamond', serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* TEXTURA DE FUNDO */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(245, 239, 224, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 0.5px solid rgba(155, 122, 58, 0.2);
+  }
+
+  .nav-brand {
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--caramel-dark);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'EB Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--text-mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--bordeaux); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-label {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 300;
+    line-height: 1.0;
+    color: var(--bordeaux-dark);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--bordeaux);
+  }
+
+  .hero-subtitle {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(17px, 2vw, 21px);
+    font-weight: 400;
+    color: var(--text-mid);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 52px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .btn-primary {
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: var(--bordeaux);
+    border: none;
+    padding: 16px 40px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-primary:hover {
+    background: var(--bordeaux-dark);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bordeaux);
+    background: transparent;
+    border: 1px solid var(--bordeaux);
+    padding: 16px 40px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    background: var(--bordeaux);
+    color: var(--cream);
+  }
+
+  /* DIVISÓRIA ORNAMENTAL */
+  .ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 24px auto;
+    opacity: 0.5;
+  }
+
+  .ornament-line {
+    width: 80px;
+    height: 0.5px;
+    background: var(--caramel);
+  }
+
+  .ornament-diamond {
+    width: 5px;
+    height: 5px;
+    background: var(--caramel);
+    transform: rotate(45deg);
+  }
+
+  /* SEÇÃO PILARES */
+  .section {
+    position: relative;
+    z-index: 1;
+    padding: 100px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 300;
+    color: var(--bordeaux-dark);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--bordeaux);
+  }
+
+  .section-intro {
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--text-mid);
+    max-width: 620px;
+    margin-bottom: 64px;
+  }
+
+  /* CARDS DOS VOLUMES */
+  .volumes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-bottom: 80px;
+  }
+
+  .volume-card {
+    background: var(--cream-dark);
+    border: 0.5px solid rgba(155, 122, 58, 0.25);
+    padding: 40px 32px;
+    position: relative;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+
+  .volume-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(107, 31, 42, 0.1);
+  }
+
+  .volume-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .volume-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--bordeaux-dark);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .volume-pilar {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--caramel-dark);
+    margin-bottom: 20px;
+    display: block;
+    padding-bottom: 20px;
+    border-bottom: 0.5px solid rgba(155, 122, 58, 0.2);
+  }
+
+  .volume-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-mid);
+    margin-bottom: 28px;
+  }
+
+  .volume-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--bordeaux);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .volume-link {
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--bordeaux);
+    text-decoration: none;
+    border-bottom: 0.5px solid var(--bordeaux);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .volume-link:hover {
+    color: var(--caramel-dark);
+    border-color: var(--caramel-dark);
+  }
+
+  /* BUNDLE */
+  .bundle-section {
+    background: var(--bordeaux-dark);
+    padding: 100px 48px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .bundle-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .bundle-label {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--caramel-light);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .bundle-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(38px, 4vw, 54px);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  .bundle-title em {
+    font-style: italic;
+    color: var(--caramel-light);
+  }
+
+  .bundle-desc {
+    font-size: 17px;
+    line-height: 1.75;
+    color: rgba(245, 239, 224, 0.75);
+    margin-bottom: 40px;
+  }
+
+  .bundle-price-block {
+    margin-bottom: 32px;
+  }
+
+  .bundle-price-old {
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    color: rgba(245, 239, 224, 0.45);
+    text-decoration: line-through;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .bundle-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+    display: block;
+  }
+
+  .bundle-price-note {
+    font-family: 'EB Garamond', serif;
+    font-size: 13px;
+    color: var(--caramel-light);
+    margin-top: 8px;
+    display: block;
+    letter-spacing: 0.05em;
+  }
+
+  .btn-bundle {
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bordeaux-dark);
+    background: var(--caramel-light);
+    border: none;
+    padding: 18px 48px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-bundle:hover {
+    background: var(--cream);
+    transform: translateY(-1px);
+  }
+
+  .bundle-includes {
+    padding: 40px;
+    border: 0.5px solid rgba(196, 164, 104, 0.3);
+  }
+
+  .bundle-includes-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--caramel-light);
+    margin-bottom: 28px;
+    display: block;
+  }
+
+  .bundle-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 0.5px solid rgba(196, 164, 104, 0.15);
+  }
+
+  .bundle-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .bundle-item-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--caramel-light);
+    line-height: 1;
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+
+  .bundle-item-text {
+    flex: 1;
+  }
+
+  .bundle-item-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--cream);
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .bundle-item-sub {
+    font-size: 13px;
+    color: rgba(245, 239, 224, 0.5);
+    letter-spacing: 0.05em;
+  }
+
+  /* SOBRE A AUTORA */
+  .author-section {
+    padding: 100px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+    position: relative;
+    z-index: 1;
+  }
+
+  .author-label {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .author-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--bordeaux-dark);
+    line-height: 1.1;
+    margin-bottom: 32px;
+  }
+
+  .author-bio p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--text-mid);
+    margin-bottom: 20px;
+  }
+
+  .author-bio p:last-child { margin-bottom: 0; }
+
+  .author-quote {
+    padding: 40px;
+    border-left: 2px solid var(--bordeaux);
+    background: var(--cream-dark);
+    margin-top: 40px;
+  }
+
+  .author-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--bordeaux-dark);
+    line-height: 1.6;
+  }
+
+  /* GARANTIA */
+  .garantia-strip {
+    background: var(--cream-dark);
+    border-top: 0.5px solid rgba(155, 122, 58, 0.2);
+    border-bottom: 0.5px solid rgba(155, 122, 58, 0.2);
+    padding: 48px;
+    display: flex;
+    gap: 64px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .garantia-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .garantia-icon {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--caramel);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .garantia-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--caramel);
+    fill: none;
+  }
+
+  .garantia-text strong {
+    font-family: 'EB Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .garantia-text span {
+    font-size: 14px;
+    color: var(--text-mid);
+  }
+
+  /* FAQ */
+  .faq-section {
+    padding: 100px 48px;
+    max-width: 720px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .faq-item {
+    border-bottom: 0.5px solid rgba(155, 122, 58, 0.2);
+    padding: 28px 0;
+  }
+
+  .faq-item:first-of-type { border-top: 0.5px solid rgba(155, 122, 58, 0.2); }
+
+  .faq-question {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--bordeaux-dark);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .faq-answer {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--text-mid);
+    margin-top: 16px;
+    display: none;
+  }
+
+  .faq-answer.open { display: block; }
+
+  .faq-toggle {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    stroke: var(--caramel);
+    fill: none;
+    transition: transform 0.2s;
+  }
+
+  .faq-item.open .faq-toggle { transform: rotate(45deg); }
+
+  /* FOOTER CTA */
+  .footer-cta {
+    background: var(--bordeaux);
+    padding: 100px 48px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-cta-label {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--caramel-light);
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .footer-cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .footer-cta-title em {
+    font-style: italic;
+    color: var(--caramel-light);
+  }
+
+  .footer-cta-sub {
+    font-size: 17px;
+    color: rgba(245, 239, 224, 0.7);
+    margin-bottom: 48px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--bordeaux-dark);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  footer p {
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: rgba(245, 239, 224, 0.4);
+  }
+
+  /* ANIMAÇÕES */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 24px 60px; }
+    .section { padding: 70px 24px; }
+    .volumes-grid { grid-template-columns: 1fr; gap: 20px; }
+    .bundle-section { padding: 70px 24px; }
+    .bundle-inner { grid-template-columns: 1fr; gap: 48px; }
+    .author-section { grid-template-columns: 1fr; gap: 40px; padding: 70px 24px; }
+    .garantia-strip { padding: 40px 24px; gap: 32px; }
+    .faq-section { padding: 70px 24px; }
+    .footer-cta { padding: 70px 24px; }
+    footer { padding: 24px; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">Coragem Lab</span>
+  <ul class="nav-links">
+    <li><a href="#volumes">Os volumes</a></li>
+    <li><a href="#trilogia">A trilogia</a></li>
+    <li><a href="#autora">Andrea</a></li>
+    <li><a href="#faq">Dúvidas</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="hero-label">Trilogia do Método Integrativo</span>
+  <h1 class="hero-title">Três práticas.<br><em>Um caminho.</em></h1>
+  <p class="hero-subtitle">Escrita reflexiva, atenção plena e neurociência do corpo. Os três pilares do Método Integrativo reunidos para mulheres que querem se entender de dentro para fora.</p>
+  <div class="hero-cta-group">
+    <a href="#trilogia" class="btn-primary">Ver a trilogia completa</a>
+    <a href="#volumes" class="btn-secondary">Conhecer os volumes</a>
+  </div>
+</section>
+
+<!-- VOLUMES -->
+<section id="volumes" class="section">
+  <span class="section-label">Os três volumes</span>
+  <h2 class="section-title">Cada um funciona sozinho.<br><em>Juntos, formam um percurso.</em></h2>
+  <p class="section-intro">Cada ebook parte de um dos três pilares do Método Integrativo. Você pode começar por qualquer um. A ordem natural é essa.</p>
+
+  <div class="volumes-grid fade-in">
+
+    <div class="volume-card">
+      <span class="volume-number">Volume I</span>
+      <h3 class="volume-title">Escrita & Escuta</h3>
+      <span class="volume-pilar">Escrita Reflexiva</span>
+      <p class="volume-desc">Um convite à prática da escrita reflexiva. Para mulheres que sentem que há algo pedindo para ser escutado, mas ainda não encontraram um jeito de chegar lá.</p>
+      <span class="volume-price">R$ 29,90</span>
+      <a href="https://hotm.io/KAmXxnD" class="volume-link">Comprar este volume</a>
+    </div>
+
+    <div class="volume-card">
+      <span class="volume-number">Volume II</span>
+      <h3 class="volume-title">Pausa & Presença</h3>
+      <span class="volume-pilar">Atenção Plena</span>
+      <p class="volume-desc">Um convite à atenção plena para a vida real. Para quem quer aprender a pausar antes do limite, sem precisar de tapete de meditação ou de silêncio perfeito.</p>
+      <span class="volume-price">R$ 29,90</span>
+      <a href="https://hotm.io/tvryBe" class="volume-link">Comprar este volume</a>
+    </div>
+
+    <div class="volume-card">
+      <span class="volume-number">Volume III</span>
+      <h3 class="volume-title">Corpo & Coragem</h3>
+      <span class="volume-pilar">Neurociência do Corpo</span>
+      <p class="volume-desc">A neurociência do que acontece por dentro quando tudo parece pesado demais. Para quem quer entender o mecanismo do próprio sistema nervoso.</p>
+      <span class="volume-price">R$ 29,90</span>
+      <a href="https://hotm.io/fFyeaCWk" class="volume-link">Comprar este volume</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- BUNDLE -->
+<section id="trilogia" class="bundle-section">
+  <div class="bundle-inner">
+    <div>
+      <span class="bundle-label">Trilogia completa</span>
+      <h2 class="bundle-title">Os três pilares.<br><em>Um investimento.</em></h2>
+      <p class="bundle-desc">Quase R$ 23 de economia em relação à compra individual. Acesso imediato aos três volumes pelo app da Hotmart.</p>
+      <div class="bundle-price-block">
+        <span class="bundle-price-old">3 volumes separados: R$ 89,70</span>
+        <span class="bundle-price">R$ 67</span>
+        <span class="bundle-price-note">Acesso imediato · Garantia de 7 dias</span>
+      </div>
+      <a href="https://hotm.io/fFyeaCWk" class="btn-bundle">Adquirir a trilogia</a>
+    </div>
+
+    <div class="bundle-includes">
+      <span class="bundle-includes-title">O que está incluído</span>
+      <div class="bundle-item">
+        <span class="bundle-item-num">I</span>
+        <div class="bundle-item-text">
+          <span class="bundle-item-title">Escrita & Escuta</span>
+          <span class="bundle-item-sub">16 capítulos · Escrita Reflexiva</span>
+        </div>
+      </div>
+      <div class="bundle-item">
+        <span class="bundle-item-num">II</span>
+        <div class="bundle-item-text">
+          <span class="bundle-item-title">Pausa & Presença</span>
+          <span class="bundle-item-sub">16 capítulos · Atenção Plena</span>
+        </div>
+      </div>
+      <div class="bundle-item">
+        <span class="bundle-item-num">III</span>
+        <div class="bundle-item-text">
+          <span class="bundle-item-title">Corpo & Coragem</span>
+          <span class="bundle-item-sub">16 capítulos · Neurociência do Corpo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTORA -->
+<section id="autora" class="author-section">
+  <div class="fade-in">
+    <span class="author-label">Quem escreveu</span>
+    <h2 class="author-name">Andrea Salgueirinho</h2>
+    <div class="author-quote">
+      <p>"Quando perdi meu filho, escrevi. O papel sustentou o que eu ainda não conseguia sustentar. A dor não foi embora. Mas encontrou um contorno."</p>
+    </div>
+  </div>
+  <div class="author-bio fade-in">
+    <p>Quarenta anos de cadernos. Mais de vinte anos facilitando grupos de desenvolvimento pessoal para mulheres. Uma formação que foi buscar o que estava embaixo, até chegar à neurociência.</p>
+    <p>O Método Integrativo nasce do que Andrea descobriu na própria vida: que escrita, presença e corpo não são práticas separadas. São o mesmo movimento, visto de três ângulos diferentes.</p>
+    <p>Esta trilogia é o material-base desse método. O que Andrea usa com as mulheres que acompanha, organizado para quem quer fazer esse caminho com autonomia.</p>
+  </div>
+</section>
+
+<!-- GARANTIA -->
+<div class="garantia-strip fade-in">
+  <div class="garantia-item">
+    <div class="garantia-icon">
+      <svg viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+    </div>
+    <div class="garantia-text">
+      <strong>Garantia de 7 dias</strong>
+      <span>Reembolso integral sem perguntas</span>
+    </div>
+  </div>
+  <div class="garantia-item">
+    <div class="garantia-icon">
+      <svg viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg>
+    </div>
+    <div class="garantia-text">
+      <strong>Acesso imediato</strong>
+      <span>Disponível pelo app da Hotmart</span>
+    </div>
+  </div>
+  <div class="garantia-item">
+    <div class="garantia-icon">
+      <svg viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+    </div>
+    <div class="garantia-text">
+      <strong>Compra segura</strong>
+      <span>Processada pela Hotmart</span>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section id="faq" class="faq-section">
+  <span class="section-label">Dúvidas frequentes</span>
+  <h2 class="section-title" style="margin-bottom: 48px;">Perguntas</h2>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      Preciso ler os três em ordem?
+      <svg class="faq-toggle" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+    </div>
+    <p class="faq-answer">Cada volume funciona de forma independente. A ordem natural é Escrita & Escuta, Pausa & Presença e Corpo & Coragem, mas você pode começar por qualquer um.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      Como vou acessar o material?
+      <svg class="faq-toggle" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+    </div>
+    <p class="faq-answer">Após a compra, você recebe acesso imediato pelo sistema da Hotmart. O conteúdo fica disponível para leitura pelo app da Hotmart ou pelo navegador. Quem usa o app consegue acessar o material offline, sem precisar de conexão.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      Isso substitui terapia?
+      <svg class="faq-toggle" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+    </div>
+    <p class="faq-answer">A trilogia é uma prática de cuidado e autoconhecimento. Ela pode caminhar ao lado de um processo terapêutico, mas não o substitui.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      Preciso ter experiência com meditação ou escrita?
+      <svg class="faq-toggle" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+    </div>
+    <p class="faq-answer">Nenhuma. Os três volumes foram pensados para quem está começando do zero, mas oferecem profundidade para quem já tem alguma prática.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      Como funciona a garantia?
+      <svg class="faq-toggle" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+    </div>
+    <p class="faq-answer">Você tem 7 dias após a compra para pedir o reembolso integral, sem burocracia.</p>
+  </div>
+</section>
+
+<!-- FOOTER CTA -->
+<section class="footer-cta">
+  <span class="footer-cta-label">Comece agora</span>
+  <h2 class="footer-cta-title">O primeiro passo<br><em>é o que você já sente.</em></h2>
+  <p class="footer-cta-sub">Escolha o volume que mais ressoa agora, ou adquira a trilogia completa.</p>
+  <a href="#trilogia" class="btn-bundle">Ver a trilogia completa</a>
+</section>
+
+<footer>
+  <p>© 2025 Andrea Salgueirinho · Coragem Lab · Todos os direitos reservados.</p>
+  <p>coragemlab.substack.com</p>
+</footer>
+
+<script>
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const answer = item.querySelector('.faq-answer');
+    item.classList.toggle('open');
+    answer.classList.toggle('open');
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
