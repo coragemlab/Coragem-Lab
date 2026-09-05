@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuadernos del Coraje — Coragem Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bordeaux: #6B1F2A;
+    --bordeaux-light: #8B2F3E;
+    --bordeaux-dark: #4A1219;
+    --cream: #F5EFE0;
+    --cream-dark: #EDE4CC;
+    --caramel: #9B7A3A;
+    --caramel-light: #C4A468;
+    --caramel-dark: #7A5C20;
+    --text-dark: #2C1810;
+    --text-mid: #5C3D28;
+    --text-light: #8B6940;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'EB Garamond', serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(245, 239, 224, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 0.5px solid rgba(155, 122, 58, 0.2);
+  }
+
+  .nav-brand {
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--caramel-dark);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'EB Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--text-mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--bordeaux); }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-label {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 300;
+    line-height: 1.0;
+    color: var(--bordeaux-dark);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--bordeaux);
+  }
+
+  .hero-subtitle {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(17px, 2vw, 21px);
+    font-weight: 400;
+    color: var(--text-mid);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 52px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .btn-primary {
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: var(--bordeaux);
+    border: none;
+    padding: 16px 40px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-primary:hover {
+    background: var(--bordeaux-dark);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bordeaux);
+    background: transparent;
+    border: 1px solid var(--bordeaux);
+    padding: 16px 40px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    background: var(--bordeaux);
+    color: var(--cream);
+  }
+
+  .section {
+    position: relative;
+    z-index: 1;
+    padding: 100px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 300;
+    color: var(--bordeaux-dark);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--bordeaux);
+  }
+
+  .section-intro {
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--text-mid);
+    max-width: 620px;
+    margin-bottom: 64px;
+  }
+
+  .volumes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-bottom: 80px;
+  }
+
+  .volume-card {
+    background: var(--cream-dark);
+    border: 0.5px solid rgba(155, 122, 58, 0.25);
+    padding: 40px 32px;
+    position: relative;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+
+  .volume-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(107, 31, 42, 0.1);
+  }
+
+  .volume-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .volume-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--bordeaux-dark);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .volume-pilar {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--caramel-dark);
+    margin-bottom: 20px;
+    display: block;
+    padding-bottom: 20px;
+    border-bottom: 0.5px solid rgba(155, 122, 58, 0.2);
+  }
+
+  .volume-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-mid);
+    margin-bottom: 28px;
+  }
+
+  .volume-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--bordeaux);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .volume-link {
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--bordeaux);
+    text-decoration: none;
+    border-bottom: 0.5px solid var(--bordeaux);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .volume-link:hover {
+    color: var(--caramel-dark);
+    border-color: var(--caramel-dark);
+  }
+
+  .bundle-section {
+    background: var(--bordeaux-dark);
+    padding: 100px 48px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .bundle-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .bundle-label {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--caramel-light);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .bundle-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(38px, 4vw, 54px);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  .bundle-title em {
+    font-style: italic;
+    color: var(--caramel-light);
+  }
+
+  .bundle-desc {
+    font-size: 17px;
+    line-height: 1.75;
+    color: rgba(245, 239, 224, 0.75);
+    margin-bottom: 40px;
+  }
+
+  .bundle-price-block {
+    margin-bottom: 32px;
+  }
+
+  .bundle-price-old {
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    color: rgba(245, 239, 224, 0.45);
+    text-decoration: line-through;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .bundle-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+    display: block;
+  }
+
+  .bundle-price-note {
+    font-family: 'EB Garamond', serif;
+    font-size: 13px;
+    color: var(--caramel-light);
+    margin-top: 8px;
+    display: block;
+    letter-spacing: 0.05em;
+  }
+
+  .btn-bundle {
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bordeaux-dark);
+    background: var(--caramel-light);
+    border: none;
+    padding: 18px 48px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-bundle:hover {
+    background: var(--cream);
+    transform: translateY(-1px);
+  }
+
+  .bundle-includes {
+    padding: 40px;
+    border: 0.5px solid rgba(196, 164, 104, 0.3);
+  }
+
+  .bundle-includes-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--caramel-light);
+    margin-bottom: 28px;
+    display: block;
+  }
+
+  .bundle-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 0.5px solid rgba(196, 164, 104, 0.15);
+  }
+
+  .bundle-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .bundle-item-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--caramel-light);
+    line-height: 1;
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+
+  .bundle-item-text { flex: 1; }
+
+  .bundle-item-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--cream);
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .bundle-item-sub {
+    font-size: 13px;
+    color: rgba(245, 239, 224, 0.5);
+    letter-spacing: 0.05em;
+  }
+
+  .author-section {
+    padding: 100px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+    position: relative;
+    z-index: 1;
+  }
+
+  .author-label {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .author-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--bordeaux-dark);
+    line-height: 1.1;
+    margin-bottom: 32px;
+  }
+
+  .author-bio p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--text-mid);
+    margin-bottom: 20px;
+  }
+
+  .author-bio p:last-child { margin-bottom: 0; }
+
+  .author-quote {
+    padding: 40px;
+    border-left: 2px solid var(--bordeaux);
+    background: var(--cream-dark);
+    margin-top: 40px;
+  }
+
+  .author-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--bordeaux-dark);
+    line-height: 1.6;
+  }
+
+  .testimonials-section {
+    padding: 100px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    margin-top: 48px;
+  }
+
+  .testimonial-card {
+    background: var(--cream-dark);
+    border: 0.5px solid rgba(155, 122, 58, 0.25);
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .testimonial-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--bordeaux-dark);
+    line-height: 1.65;
+    flex: 1;
+  }
+
+  .testimonial-author {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 20px;
+    border-top: 0.5px solid rgba(155, 122, 58, 0.2);
+  }
+
+  .testimonial-name {
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    color: var(--text-dark);
+    font-weight: 500;
+  }
+
+  .testimonial-role {
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--caramel);
+  }
+
+  .garantia-strip {
+    background: var(--cream-dark);
+    border-top: 0.5px solid rgba(155, 122, 58, 0.2);
+    border-bottom: 0.5px solid rgba(155, 122, 58, 0.2);
+    padding: 48px;
+    display: flex;
+    gap: 64px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .garantia-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .garantia-icon {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--caramel);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .garantia-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--caramel);
+    fill: none;
+  }
+
+  .garantia-text strong {
+    font-family: 'EB Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .garantia-text span {
+    font-size: 14px;
+    color: var(--text-mid);
+  }
+
+  .faq-section {
+    padding: 100px 48px;
+    max-width: 720px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .faq-item {
+    border-bottom: 0.5px solid rgba(155, 122, 58, 0.2);
+    padding: 28px 0;
+  }
+
+  .faq-item:first-of-type { border-top: 0.5px solid rgba(155, 122, 58, 0.2); }
+
+  .faq-question {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--bordeaux-dark);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .faq-answer {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--text-mid);
+    margin-top: 16px;
+    display: none;
+  }
+
+  .faq-answer.open { display: block; }
+
+  .faq-toggle {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    stroke: var(--caramel);
+    fill: none;
+    transition: transform 0.2s;
+  }
+
+  .faq-item.open .faq-toggle { transform: rotate(45deg); }
+
+  .footer-cta {
+    background: var(--bordeaux);
+    padding: 100px 48px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-cta-label {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--caramel-light);
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .footer-cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .footer-cta-title em {
+    font-style: italic;
+    color: var(--caramel-light);
+  }
+
+  .footer-cta-sub {
+    font-size: 17px;
+    color: rgba(245, 239, 224, 0.7);
+    margin-bottom: 48px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+
+  footer {
+    background: var(--bordeaux-dark);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  footer p {
+    font-family: 'EB Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: rgba(245, 239, 224, 0.4);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 24px 60px; }
+    .section { padding: 70px 24px; }
+    .volumes-grid { grid-template-columns: 1fr; gap: 20px; }
+    .bundle-section { padding: 70px 24px; }
+    .bundle-inner { grid-template-columns: 1fr; gap: 48px; }
+    .author-section { grid-template-columns: 1fr; gap: 40px; padding: 70px 24px; }
+    .garantia-strip { padding: 40px 24px; gap: 32px; }
+    .faq-section { padding: 70px 24px; }
+    .footer-cta { padding: 70px 24px; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    footer { padding: 24px; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">Coragem Lab</span>
+  <ul class="nav-links">
+    <li><a href="#volumes">Los volúmenes</a></li>
+    <li><a href="#coleccion">La colección</a></li>
+    <li><a href="#autora">Andrea</a></li>
+    <li><a href="#faq">Preguntas</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <span class="hero-label">Cuadernos del Coraje</span>
+  <h1 class="hero-title">Tres prácticas.<br><em>Un recorrido.</em></h1>
+  <p class="hero-subtitle">Escritura reflexiva, atención plena y neurociencia del coraje. Los tres pilares del Método Integrativo para mujeres que quieren entenderse desde adentro.</p>
+  <div class="hero-cta-group">
+    <a href="#coleccion" class="btn-primary">Ver la colección completa</a>
+    <a href="#volumes" class="btn-secondary">Conocer los volúmenes</a>
+  </div>
+</section>
+
+<section id="volumes" class="section">
+  <span class="section-label">Los tres volúmenes</span>
+  <h2 class="section-title">Cada uno funciona solo.<br><em>Juntos, forman un recorrido.</em></h2>
+  <p class="section-intro">Cada ebook parte de uno de los tres pilares del Método Integrativo. Puedes empezar por cualquiera. El orden natural es este.</p>
+
+  <div class="volumes-grid fade-in">
+
+    <div class="volume-card">
+      <span class="volume-number">Volumen I</span>
+      <h3 class="volume-title">Escritura & Escucha</h3>
+      <span class="volume-pilar">Escritura Reflexiva</span>
+      <p class="volume-desc">Una invitación a la práctica de la escritura reflexiva. Para mujeres que sienten que hay algo pidiendo ser escuchado, pero que todavía no han encontrado la manera de llegar ahí.</p>
+      <span class="volume-price">€ 9,90</span>
+      <a href="https://pay.hotmart.com/W107482023O" class="volume-link">Adquirir este volumen</a>
+    </div>
+
+    <div class="volume-card">
+      <span class="volume-number">Volumen II</span>
+      <h3 class="volume-title">Pausa & Presencia</h3>
+      <span class="volume-pilar">Atención Plena</span>
+      <p class="volume-desc">Una invitación a la atención plena para la vida real. Para quien quiere aprender a pausar antes del límite, sin necesidad de tapete de meditación ni silencio perfecto.</p>
+      <span class="volume-price">€ 9,90</span>
+      <a href="https://pay.hotmart.com/I107482122C" class="volume-link">Adquirir este volumen</a>
+    </div>
+
+    <div class="volume-card">
+      <span class="volume-number">Volumen III</span>
+      <h3 class="volume-title">Cuerpo & Coraje</h3>
+      <span class="volume-pilar">Neurociencia del Coraje</span>
+      <p class="volume-desc">La neurociencia de lo que ocurre por dentro cuando todo parece demasiado pesado. Para quien quiere entender el mecanismo de su propio sistema nervioso.</p>
+      <span class="volume-price">€ 9,90</span>
+      <a href="https://pay.hotmart.com/F107482164L" class="volume-link">Adquirir este volumen</a>
+    </div>
+
+  </div>
+</section>
+
+<section id="coleccion" class="bundle-section">
+  <div class="bundle-inner">
+    <div>
+      <span class="bundle-label">Colección completa</span>
+      <h2 class="bundle-title">Los tres pilares.<br><em>Una inversión.</em></h2>
+      <p class="bundle-desc">Casi € 5 de ahorro respecto a la compra individual. Acceso inmediato a los tres volúmenes desde la app de Hotmart.</p>
+      <div class="bundle-price-block">
+        <span class="bundle-price-old">3 volúmenes separados: € 29,70</span>
+        <span class="bundle-price">€ 24,90</span>
+        <span class="bundle-price-note">Acceso inmediato · Garantía de 7 días</span>
+      </div>
+      <a href="https://pay.hotmart.com/D107482285A" class="btn-bundle">Adquirir la colección</a>
+    </div>
+
+    <div class="bundle-includes">
+      <span class="bundle-includes-title">Qué está incluido</span>
+      <div class="bundle-item">
+        <span class="bundle-item-num">I</span>
+        <div class="bundle-item-text">
+          <span class="bundle-item-title">Escritura & Escucha</span>
+          <span class="bundle-item-sub">16 capítulos · Escritura Reflexiva</span>
+        </div>
+      </div>
+      <div class="bundle-item">
+        <span class="bundle-item-num">II</span>
+        <div class="bundle-item-text">
+          <span class="bundle-item-title">Pausa & Presencia</span>
+          <span class="bundle-item-sub">16 capítulos · Atención Plena</span>
+        </div>
+      </div>
+      <div class="bundle-item">
+        <span class="bundle-item-num">III</span>
+        <div class="bundle-item-text">
+          <span class="bundle-item-title">Cuerpo & Coraje</span>
+          <span class="bundle-item-sub">16 capítulos · Neurociencia del Coraje</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="autora" class="author-section">
+  <div class="fade-in">
+    <span class="author-label">Quién escribió</span>
+    <h2 class="author-name">Andrea Salgueirinho</h2>
+    <div class="author-quote">
+      <p>"Cuando perdí a mi hijo, escribí. El papel sostuvo lo que yo todavía no podía sostener. El dolor no se fue. Pero encontró una forma."</p>
+    </div>
+  </div>
+  <div class="author-bio fade-in">
+    <p>Cuarenta años de cuadernos. Más de veinte años facilitando grupos de desarrollo personal para mujeres. Una formación que fue a buscar lo que estaba debajo, hasta llegar a la neurociencia.</p>
+    <p>El Método Integrativo nace de lo que Andrea descubrió en su propia vida: que escritura, presencia y cuerpo no son prácticas separadas. Son el mismo movimiento, visto desde tres ángulos distintos.</p>
+    <p>Estos cuadernos son el material base de ese método. Lo que Andrea usa con las mujeres que acompaña, organizado para quien quiere hacer ese recorrido con autonomía.</p>
+  </div>
+</section>
+
+<section class="testimonials-section fade-in">
+  <span class="section-label">Lo que dicen</span>
+  <h2 class="section-title"><em>Quienes ya leyeron</em></h2>
+
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <p class="testimonial-text">"Acerté todo y terminé emocionada. Mente llena, corazón apretado. Me encantó la lectura, tan liviana. Todo lo que necesitaba. Voy a hacer los ejercicios poco a poco, seguro que me va a hacer bien."</p>
+      <div class="testimonial-author">
+        <span class="testimonial-name">Aline Ramos</span>
+        <span class="testimonial-role">Administradora de Empresas · Santa Catarina, Brasil</span>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <p class="testimonial-text">"Reflexioné, lloré, reí y noté que siempre escribí, pero no con esta conciencia. Ahora vi que la escritura es liberadora y alivia el alma."</p>
+      <div class="testimonial-author">
+        <span class="testimonial-name">Leandra</span>
+        <span class="testimonial-role">Profesora y Psicopedagoga · Brasília, Brasil</span>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <p class="testimonial-text">"Escritura & Escucha es como lágrimas y pañuelo. Desahogo y consuelo. Lecturas que traen conocimiento, vida y valores, acompañadas de historias que transforman."</p>
+      <div class="testimonial-author">
+        <span class="testimonial-name">Adriana Gomes Santos</span>
+        <span class="testimonial-role">Pastora · Málaga, España</span>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <p class="testimonial-text">"Realidad, pureza, verdades. A veces parar para llorar, después continuar. Es algo que invade el ser, invade el corazón. Una inspiración para muchas mujeres."</p>
+      <div class="testimonial-author">
+        <span class="testimonial-name">Eliana Aparecida Ignacio</span>
+        <span class="testimonial-role">Masajista y Pastora · São Paulo, Brasil</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="garantia-strip fade-in">
+  <div class="garantia-item">
+    <div class="garantia-icon">
+      <svg viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+    </div>
+    <div class="garantia-text">
+      <strong>Garantía de 7 días</strong>
+      <span>Reembolso integral sin preguntas</span>
+    </div>
+  </div>
+  <div class="garantia-item">
+    <div class="garantia-icon">
+      <svg viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg>
+    </div>
+    <div class="garantia-text">
+      <strong>Acceso inmediato</strong>
+      <span>Disponible desde la app de Hotmart</span>
+    </div>
+  </div>
+  <div class="garantia-item">
+    <div class="garantia-icon">
+      <svg viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+    </div>
+    <div class="garantia-text">
+      <strong>Compra segura</strong>
+      <span>Procesada por Hotmart</span>
+    </div>
+  </div>
+</div>
+
+<section id="faq" class="faq-section">
+  <span class="section-label">Dudas frecuentes</span>
+  <h2 class="section-title" style="margin-bottom: 48px;">Preguntas</h2>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      ¿Necesito leerlos en orden?
+      <svg class="faq-toggle" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+    </div>
+    <p class="faq-answer">Cada volumen funciona de forma independiente. El orden natural es Escritura & Escucha, Pausa & Presencia y Cuerpo & Coraje, pero puedes empezar por cualquiera.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      ¿Cómo accedo al material?
+      <svg class="faq-toggle" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+    </div>
+    <p class="faq-answer">Tras la compra, recibes acceso inmediato a través del sistema de Hotmart. El contenido está disponible para lectura desde la app de Hotmart o desde el navegador. Quienes usan la app pueden acceder al material sin conexión.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      ¿Esto sustituye a la terapia?
+      <svg class="faq-toggle" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+    </div>
+    <p class="faq-answer">Los Cuadernos del Coraje son una práctica de cuidado y autoconocimiento. Pueden caminar junto a un proceso terapéutico, pero no lo sustituyen.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      ¿Necesito experiencia en meditación o escritura?
+      <svg class="faq-toggle" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+    </div>
+    <p class="faq-answer">Ninguna. Los tres volúmenes fueron pensados para quien empieza desde cero, pero ofrecen profundidad para quien ya tiene alguna práctica.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      ¿Cómo funciona la garantía?
+      <svg class="faq-toggle" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+    </div>
+    <p class="faq-answer">Tienes 7 días desde la compra para solicitar el reembolso integral, sin burocracia.</p>
+  </div>
+</section>
+
+<section class="footer-cta">
+  <span class="footer-cta-label">Empieza ahora</span>
+  <h2 class="footer-cta-title">El primer paso<br><em>es lo que ya sientes.</em></h2>
+  <p class="footer-cta-sub">Elige el volumen que más resuena ahora, o adquiere la colección completa.</p>
+  <a href="https://pay.hotmart.com/D107482285A" class="btn-bundle">Ver la colección completa</a>
+</section>
+
+<footer>
+  <p>© 2026 Andrea Salgueirinho · Coragem Lab · Todos los derechos reservados.</p>
+  <p>coragemlab.substack.com</p>
+</footer>
+
+<script>
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const answer = item.querySelector('.faq-answer');
+    item.classList.toggle('open');
+    answer.classList.toggle('open');
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
