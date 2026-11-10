@@ -462,7 +462,7 @@
     max-width: 1100px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 340px 1fr;
     grid-template-rows: auto 1fr;
     grid-template-areas:
       "photo head"
@@ -476,7 +476,7 @@
   }
 
   .author-head { grid-area: head; align-self: end; }
-  .author-photo-wrap { grid-area: photo; }
+  .author-photo-wrap { grid-area: photo; align-self: stretch; display: flex; }
   .author-bio { grid-area: bio; align-self: start; }
 
   .author-label {
@@ -510,15 +510,18 @@
   .author-photo {
     display: block;
     width: 100%;
-    max-width: 320px;
+    max-width: 340px;
     height: auto;
     aspect-ratio: 4 / 5;
     object-fit: cover;
     object-position: center top;
     margin-bottom: 0;
-    max-width: 300px;
     border: 0.5px solid rgba(155, 122, 58, 0.25);
     box-shadow: 0 12px 36px rgba(74, 18, 25, 0.14);
+  }
+
+  @media (min-width: 769px) {
+    .author-photo { flex: 1; aspect-ratio: auto; min-height: 0; }
   }
 
   .author-quote {
