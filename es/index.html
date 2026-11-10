@@ -497,6 +497,19 @@
 
   .author-bio p:last-child { margin-bottom: 0; }
 
+  .author-photo {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center top;
+    margin-bottom: 8px;
+    border: 0.5px solid rgba(155, 122, 58, 0.25);
+    box-shadow: 0 12px 36px rgba(74, 18, 25, 0.14);
+  }
+
   .author-quote {
     padding: 40px;
     border-left: 2px solid var(--bordeaux);
@@ -867,6 +880,7 @@
   <div class="fade-in">
     <span class="author-label">Quién escribió</span>
     <h2 class="author-name">Andrea Salgueirinho</h2>
+    <img class="author-photo" src="../Coragem-2-0/foto-andrea.jpg" alt="Andrea Salgueirinho" width="640" height="800" loading="lazy">
     <div class="author-quote">
       <p>"Cuando perdí a mi hijo, escribí. El papel sostuvo lo que yo todavía no podía sostener. El dolor no se fue. Pero encontró una forma."</p>
     </div>
