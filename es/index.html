@@ -462,12 +462,22 @@
     max-width: 1100px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 1.4fr;
-    gap: 80px;
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "photo head"
+      "photo bio"
+      "quote quote";
+    column-gap: 72px;
+    row-gap: 0;
     align-items: start;
     position: relative;
     z-index: 1;
   }
+
+  .author-head { grid-area: head; align-self: end; }
+  .author-photo-wrap { grid-area: photo; }
+  .author-bio { grid-area: bio; align-self: start; }
 
   .author-label {
     font-family: 'EB Garamond', serif;
@@ -505,7 +515,8 @@
     aspect-ratio: 4 / 5;
     object-fit: cover;
     object-position: center top;
-    margin-bottom: 8px;
+    margin-bottom: 0;
+    max-width: 300px;
     border: 0.5px solid rgba(155, 122, 58, 0.25);
     box-shadow: 0 12px 36px rgba(74, 18, 25, 0.14);
   }
@@ -514,7 +525,8 @@
     padding: 40px;
     border-left: 2px solid var(--bordeaux);
     background: var(--cream-dark);
-    margin-top: 40px;
+    margin-top: 56px;
+    grid-area: quote;
   }
 
   .author-quote p {
@@ -767,7 +779,16 @@
     .volumes-grid { grid-template-columns: 1fr; gap: 20px; }
     .bundle-section { padding: 70px 24px; }
     .bundle-inner { grid-template-columns: 1fr; gap: 48px; }
-    .author-section { grid-template-columns: 1fr; gap: 40px; padding: 70px 24px; }
+    .author-section {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      grid-template-areas: "head" "photo" "bio" "quote";
+      row-gap: 28px;
+      padding: 70px 24px;
+    }
+    .author-head { align-self: start; }
+    .author-quote { margin-top: 12px; padding: 28px; }
+    .author-quote p { font-size: 20px; }
     .garantia-strip { padding: 40px 24px; gap: 32px; }
     .faq-section { padding: 70px 24px; }
     .footer-cta { padding: 70px 24px; }
@@ -877,18 +898,20 @@
 </section>
 
 <section id="autora" class="author-section">
-  <div class="fade-in">
+  <div class="author-head fade-in">
     <span class="author-label">Quién escribió</span>
     <h2 class="author-name">Andrea Salgueirinho</h2>
+  </div>
+  <div class="author-photo-wrap fade-in">
     <img class="author-photo" src="../Coragem-2-0/foto-andrea.jpg" alt="Andrea Salgueirinho" width="640" height="800" loading="lazy">
-    <div class="author-quote">
-      <p>"Cuando perdí a mi hijo, escribí. El papel sostuvo lo que yo todavía no podía sostener. El dolor no se fue. Pero encontró una forma."</p>
-    </div>
   </div>
   <div class="author-bio fade-in">
     <p>Cuarenta años de cuadernos. Más de veinte años facilitando grupos de desarrollo personal para mujeres. Una formación que fue a buscar lo que estaba debajo, hasta llegar a la neurociencia.</p>
     <p>El Método Integrativo nace de lo que Andrea descubrió en su propia vida: que escritura, presencia y cuerpo no son prácticas separadas. Son el mismo movimiento, visto desde tres ángulos distintos.</p>
     <p>Estos cuadernos son el material base de ese método. Lo que Andrea usa con las mujeres que acompaña, organizado para quien quiere hacer ese recorrido con autonomía.</p>
+  </div>
+  <div class="author-quote fade-in">
+    <p>"Cuando perdí a mi hijo, escribí. El papel sostuvo lo que yo todavía no podía sostener. El dolor no se fue. Pero encontró una forma."</p>
   </div>
 </section>
 
